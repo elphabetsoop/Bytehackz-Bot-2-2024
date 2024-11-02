@@ -1,29 +1,35 @@
-# fly.toml app configuration file generated for bytehackz2023bot2 on 2023-11-13T13:11:18+08:00
+# fly.toml app configuration file generated for bytehackz2024bot2 on 2024-10-12T20:54:42+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "bytehackz2023bot2"
-primary_region = "sin"
-kill_signal = "SIGINT"
-kill_timeout = "5s"
+app = 'bytehackz2024bot2'
+primary_region = 'sin'
+kill_signal = 'SIGINT'
+kill_timeout = '5s'
 
 [build]
 
 [[services]]
-  protocol = "tcp"
+  protocol = 'tcp'
   internal_port = 8080
-  processes = ["app"]
+  processes = ['app']
 
   [[services.ports]]
     port = 80
-    handlers = ["http"]
+    handlers = ['http']
     force_https = true
 
   [[services.ports]]
     port = 443
-    handlers = ["tls", "http"]
+    handlers = ['tls', 'http']
+
   [services.concurrency]
-    type = "connections"
+    type = 'connections'
     hard_limit = 25
     soft_limit = 20
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 1

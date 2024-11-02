@@ -63,7 +63,7 @@ class CustomHelpCommand(commands.HelpCommand):
 
 
 logger = logging.getLogger('discord')
-logging.getLogger('discord.http').setLevel(LOGGING_LEVEL)
+logging.getLogger('discord.http').setLevel(getattr(logging, LOGGING_LEVEL.split('.')[-1], logging.INFO))
 handler = logging.FileHandler(
     filename='backup/bytehackzbot2.log',
     encoding='utf-8',
@@ -90,7 +90,7 @@ async def load():
 
 @tree.command(name="hello", description="Say hi :)")
 async def hello(interaction: discord.Interaction, member:discord.Member):
-    await interaction.response.send_message(f"Hello {member.mention}, welcome to Byte®Hackz 2023!")
+    await interaction.response.send_message(f"Hello {member.mention}, welcome to Byte®Hackz 2024!")
 
 
 @tree.command(name="goodbye", description="Say bye :)")
@@ -126,8 +126,8 @@ async def on_message(message):
         # embed.set_thumbnail(url="attachment://images/Stay_hydrated.jpg")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/1169297244500009022/1169297512650248282/images.png?ex=6554e42b&is=65426f2b&hm=bae43ae3bc83d5e8dae7e3239a874c10804f3a521fdaf52eb91aded7b0ddd770&")
-        embed.set_footer(text="Overflow Byte®Hackz 2023 Organising Team",
-                         icon_url=OVERFLOW_LOGO)
+        embed.set_footer(text="Overflow Byte®Hackz 2024 Organising Team",
+                         icon_url="https://media.discordapp.net/attachments/1294543462292521010/1294643354864324609/715601445831049367.png?ex=670bc215&is=670a7095&hm=7a7318fe9888b04089ca0153081ab3b9b84a441370797b02bd166fe94586c45c&=&format=webp&quality=lossless&width=160&height=160")
         await message.channel.send(embed=embed)
 
     elif 'butt' in message.content or 'ass' in message.content:
@@ -143,7 +143,7 @@ async def on_message(message):
 
     elif 'hi' in message.content or 'hello' in message.content or 'welcome' in message.content:
         embed = discord.Embed(title="Hello!",
-                              description="Welcome to Byte®Hackz 2023!",
+                              description="Welcome to Byte®Hackz 2024!",
                               color=discord.Color.orange())
         embed.set_author(name=message.author,
                          url="https://www.instagram.com/npoverflow/",
@@ -156,23 +156,23 @@ async def on_message(message):
 
 @tree.command(name="joke", description="This is a joke.")
 async def joke(interaction: discord.Interaction):
-    jokeurl = "https://dad-jokes.p.rapidapi.com/random/joke"
+    jokeurl = "https://official-joke-api.appspot.com/random_joke"
 
-    headers = {
-        "X-RapidAPI-Key": DAD_JOKES_API_KEY,
-        "X-RapidAPI-Host": "dad-jokes.p.rapidapi.com"
-    }
+    # headers = {
+    #     # "X-RapidAPI-Key": DAD_JOKES_API_KEY,
+    #     "X-RapidAPI-Host": "https://official-joke-api.appspot.com/random_joke"
+    # }
 
-    response = requests.request("GET", jokeurl, headers=headers)
+    response = requests.request("GET", jokeurl)
 
     if response.status_code == 200:
         joke_data = response.json()
         # Accessing the 'setup' and 'punchline' values
-        setup = joke_data['body'][0]['setup']
-        punchline = joke_data['body'][0]['punchline']
+        setup = joke_data['setup']
+        punchline = joke_data['punchline']
 
         # Debugging: Print the contents of the joke_data dictionary
-        #print("joke_data:", joke_data)
+        print("DEBUGGING: joke_data:", joke_data)
 
         if setup and punchline:
             embed = discord.Embed(title="Here's a joke:",
@@ -182,7 +182,7 @@ async def joke(interaction: discord.Interaction):
                              url="https://www.instagram.com/npoverflow/",
                              icon_url=interaction.user.avatar)
             embed.set_footer(text=f"{interaction.user.id}",
-                             icon_url="https://cdn.discordapp.com/attachments/1169297244500009022/1171721561368186880/bytehackz2023logo_square.jpg?ex=655db5bd&is=654b40bd&hm=f003a0cfe4d7d905f580d8b37a31181fdf5cc1d44f5b114395c7ab6bb62ae108&")
+                             icon_url="https://media.discordapp.net/attachments/1294543462292521010/1302151886731874355/LOGO.png?ex=672712f2&is=6725c172&hm=f4b414e6d03a17b7cd56a89673b73cf0a12fe30db8afb3e1500e3533a673965e&=&format=webp&quality=lossless&width=565&height=565")
             await interaction.response.send_message(interaction.user.mention, embed=embed)
         else:
             await interaction.response.send_message("The joke data is incomplete.")
@@ -190,38 +190,38 @@ async def joke(interaction: discord.Interaction):
         await interaction.response.send_message("Sorry, I couldn't fetch a joke this time.")
 
 
-@tree.command(name="more_jokes", description="A different API lol")
-async def more_jokes(interaction: discord.Interaction):
-    url = "https://jokes-by-api-ninjas.p.rapidapi.com/v1/jokes"
+# @tree.command(name="more_jokes", description="A different API lol")
+# async def more_jokes(interaction: discord.Interaction):
+#     url = "https://jokes-by-api-ninjas.p.rapidapi.com/v1/jokes"
 
-    headers = {
-        "X-RapidAPI-Key": NINJAS_API_KEY,
-        "X-RapidAPI-Host": "jokes-by-api-ninjas.p.rapidapi.com"
-    }
+#     headers = {
+#         "X-RapidAPI-Key": NINJAS_API_KEY,
+#         "X-RapidAPI-Host": "jokes-by-api-ninjas.p.rapidapi.com"
+#     }
 
-    response = requests.get(url, headers=headers)
+#     response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
-        joke_data = response.json()
-        joke = joke_data[0]['joke']
+#     if response.status_code == 200:
+#         joke_data = response.json()
+#         joke = joke_data[0]['joke']
 
-        # Debugging: Print the contents of the joke_data dictionary
-        #print("joke_data:", joke_data)
+#         # Debugging: Print the contents of the joke_data dictionary
+#         #print("joke_data:", joke_data)
 
-        if joke:
-            embed = discord.Embed(title="Here's a joke:",
-                                  description=f"{joke}",
-                                  color=discord.Color.blurple())
-            embed.set_author(name=interaction.user.name,
-                             url="https://www.instagram.com/npoverflow/",
-                             icon_url=interaction.user.avatar)
-            embed.set_footer(text=f"{interaction.user.id}",
-                             icon_url="https://cdn.discordapp.com/attachments/1169297244500009022/1171721561368186880/bytehackz2023logo_square.jpg?ex=655db5bd&is=654b40bd&hm=f003a0cfe4d7d905f580d8b37a31181fdf5cc1d44f5b114395c7ab6bb62ae108&")
-            await interaction.response.send_message(interaction.user.mention, embed=embed)
-        else:
-            await interaction.response.send_message("The joke data is incomplete.")
-    else:
-        await interaction.response.send_message("Sorry, I couldn't fetch a joke this time.")
+#         if joke:
+#             embed = discord.Embed(title="Here's a joke:",
+#                                   description=f"{joke}",
+#                                   color=discord.Color.blurple())
+#             embed.set_author(name=interaction.user.name,
+#                              url="https://www.instagram.com/npoverflow/",
+#                              icon_url=interaction.user.avatar)
+#             embed.set_footer(text=f"{interaction.user.id}",
+#                              icon_url="https://cdn.discordapp.com/attachments/1169297244500009022/1171721561368186880/bytehackz2023logo_square.jpg?ex=655db5bd&is=654b40bd&hm=f003a0cfe4d7d905f580d8b37a31181fdf5cc1d44f5b114395c7ab6bb62ae108&")
+#             await interaction.response.send_message(interaction.user.mention, embed=embed)
+#         else:
+#             await interaction.response.send_message("The joke data is incomplete.")
+#     else:
+#         await interaction.response.send_message("Sorry, I couldn't fetch a joke this time.")
 
 
 @tree.command(name="announce", description="announce a message in any channel while pinging a role")
@@ -237,7 +237,7 @@ async def announce(interaction: discord.Interaction,
                      url="https://www.instagram.com/npoverflow/",
                      icon_url=interaction.user.avatar)
     embed.set_thumbnail(url= BYTEHACKZ_SQUARE)
-    embed.set_footer(text="Overflow Byte®Hackz 2023 Organising Team",
+    embed.set_footer(text="Overflow Byte®Hackz 2024 Organising Team",
                      icon_url='https://cdn.discordapp.com/attachments/1169297244500009022/1169837618658291732/logo_white_bg.png?ex=6556db2e&is=6544662e&hm=39691fd6451a1abbdb6a22826c07cb19d6f882aaf6da67abf75d24d9ed565737&')
     await channel.send(role.mention, embed=embed)
     await interaction.response.send_message("Success!")
@@ -255,7 +255,7 @@ async def announce(interaction: discord.Interaction,
                      url="https://www.instagram.com/npoverflow/",
                      icon_url=interaction.user.avatar)
     embed.set_thumbnail(url= BYTEHACKZ_SQUARE)
-    embed.set_footer(text="Overflow Byte®Hackz 2023 Organising Team",
+    embed.set_footer(text="Overflow Byte®Hackz 2024 Organising Team",
                      icon_url='https://cdn.discordapp.com/attachments/1169297244500009022/1169837618658291732/logo_white_bg.png?ex=6556db2e&is=6544662e&hm=39691fd6451a1abbdb6a22826c07cb19d6f882aaf6da67abf75d24d9ed565737&')
     await channel.send(embed=embed)
     await interaction.response.send_message("Success!")
